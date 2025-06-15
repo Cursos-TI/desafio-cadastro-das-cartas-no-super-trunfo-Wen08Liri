@@ -1,0 +1,86 @@
+#include <stdio.h>
+
+// Estrutura para representar uma carta do Super Trunfo
+typedef struct {
+    char estado;
+    char codigo[4];
+    char nomeCidade[50];
+    unsigned long int populacao;
+    float area;
+    float pib;
+    int pontosTuristicos;
+    float densidade;
+    float pibPerCapita;
+    float superPoder;
+} Carta;
+
+// Função para ler os dados de uma carta
+void lerCarta(Carta *carta) {
+    printf("Estado (A-H): ");
+    scanf(" %c", &carta->estado);
+    printf("Código da Carta (ex: A01): ");
+    scanf("%s", carta->codigo);
+    printf("Nome da Cidade: ");
+    scanf(" %[^\n]", carta->nomeCidade);
+    printf("População: ");
+    scanf("%lu", &carta->populacao);
+    printf("Área (km²): ");
+    scanf("%f", &carta->area);
+    printf("PIB (bilhões de reais): ");
+    scanf("%f", &carta->pib);
+    printf("Número de Pontos Turísticos: ");
+    scanf("%d", &carta->pontosTuristicos);
+
+    // Cálculos dos atributos adicionais
+    carta->densidade = carta->populacao / carta->area;
+    carta->pibPerCapita = (carta->pib * 1000000000) / carta->populacao;
+    carta->superPoder = carta->populacao + carta->area + (carta->pib * 1000000000) + 
+                        carta->pontosTuristicos + carta->pibPerCapita + (1 / carta->densidade);
+}
+
+// Função para exibir os dados de uma carta
+void exibirCarta(Carta carta) {
+    printf("\nCarta:\n");
+    printf("Estado: %c\n", carta.estado);
+    printf("Código: %s\n", carta.codigo);
+    printf("Nome da Cidade: %s\n", carta.nomeCidade);
+    printf("População: %lu\n", carta.populacao);
+    printf("Área: %.2f km²\n", carta.area);
+    printf("PIB: %.2f bilhões de reais\n", carta.pib);
+    printf("Número de Pontos Turísticos: %d\n", carta.pontosTuristicos);
+    printf("Densidade Populacional: %.2f hab/km²\n", carta.densidade);
+    printf("PIB per Capita: %.2f reais\n", carta.pibPerCapita);
+    printf("Super Poder: %.2f\n", carta.superPoder);
+}
+
+// Função para comparar duas cartas
+void compararCartas(Carta c1, Carta c2) {
+    printf("\nComparação de Cartas:\n");
+    printf("População: %d\n", c1.populacao > c2.populacao);
+    printf("Área: %d\n", c1.area > c2.area);
+    printf("PIB: %d\n", c1.pib > c2.pib);
+    printf("Pontos Turísticos: %d\n", c1.pontosTuristicos > c2.pontosTuristicos);
+    printf("Densidade Populacional: %d\n", c1.densidade < c2.densidade); // Menor densidade vence
+    printf("PIB per Capita: %d\n", c1.pibPerCapita > c2.pibPerCapita);
+    printf("Super Poder: %d\n", c1.superPoder > c2.superPoder);
+}
+
+int main() {
+    Carta carta1, carta2;
+
+    // Entrada dos dados
+    printf("Digite os dados da Carta 1:\n");
+    lerCarta(&carta1);
+    
+    printf("\nDigite os dados da Carta 2:\n");
+    lerCarta(&carta2);
+
+    // Exibição das cartas
+    exibirCarta(carta1);
+    exibirCarta(carta2);
+
+    // Comparação das cartas
+    compararCartas(carta1, carta2);
+
+    return 0;
+}
